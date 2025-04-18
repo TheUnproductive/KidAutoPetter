@@ -1,0 +1,10 @@
+{
+  "Name": "KidAutoPetter",
+  "Author": "TheUnproductive",
+  "Version": "1.0.1",
+  "Description": "A simple mod to make children more useful.",
+  "UniqueID": "TheUnproductive.KidAutoPetter",
+  "EntryDll": "KidAutoPetter.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": [ "Nexus:33358" ]
+}
