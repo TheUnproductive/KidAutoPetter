@@ -8,6 +8,7 @@ namespace KidAutoPetter
     /// <summary>The mod entry point.</summary>
     internal sealed class ModEntry : Mod
     {
+        private ModConfig _config;
         /*********
         ** Public methods
         *********/
@@ -16,8 +17,10 @@ namespace KidAutoPetter
         public override void Entry(IModHelper helper)
         {
             I18n.Init(helper.Translation);
+            _config = helper.ReadConfig<ModConfig>();
             this.Monitor.Log($"KidAutoPetter loaded successfully. :)", LogLevel.Info);
             helper.Events.GameLoop.DayStarted += this.KidAutoPetter;
+            helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
         }
 
 
@@ -37,7 +40,7 @@ namespace KidAutoPetter
             if (Game1.IsMultiplayer) return;
             if (Game1.player.getChildrenCount() > 0 && Game1.player.IsMainPlayer)
             {
-                this.Monitor.Log($"Main Player has children", LogLevel.Debug);
+                //this.Monitor.Log($"Main Player has children", LogLevel.Debug);
                 if (Game1.player.hasPet())
                 {
                     Pet pet = Game1.player.getPet();
@@ -52,9 +55,37 @@ namespace KidAutoPetter
                     //this.Monitor.Log($"{animal.Name}", LogLevel.Debug);
                     animal.pet(Game1.player);
                 }
-
-                Game1.showGlobalMessage(I18n.GetByKey("petted"));
+                if (_config.enableMessage)
+                {
+                    Game1.showGlobalMessage(I18n.GetByKey("petted"));
+                }
             }
+        }
+
+        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            // get Generic Mod Config Menu's API (if it's installed)
+            var configMenu = this.Helper.ModRegistry.GetApi<GenericModConfigMenu.IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
+            if (configMenu is null)
+            {
+                //this.Monitor.Log("Config Menu not found", LogLevel.Debug);
+                return;
+            }
+            // register mod
+            configMenu.Register(
+                mod: this.ModManifest,
+                reset: () => this.Helper.ReadConfig<ModConfig>(),
+                save: () => this.Helper.WriteConfig(this._config)
+            );
+
+            // add some config options
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Enable Text Message on Day start",
+                tooltip: () => "This enables or disables the Info Message popping up on day start.",
+                getValue: () => this._config.enableMessage,
+                setValue: value => this._config.enableMessage = value
+            );
         }
     }
 }
