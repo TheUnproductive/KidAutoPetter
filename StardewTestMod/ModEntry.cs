@@ -18,9 +18,9 @@ namespace KidAutoPetter
         {
             I18n.Init(helper.Translation);
             _config = helper.ReadConfig<ModConfig>();
-            this.Monitor.Log($"KidAutoPetter loaded successfully. :)", LogLevel.Info);
             helper.Events.GameLoop.DayStarted += this.KidAutoPetter;
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            this.Monitor.Log($"KidAutoPetter loaded successfully. :)", LogLevel.Info);
         }
 
 
@@ -86,6 +86,8 @@ namespace KidAutoPetter
                 getValue: () => this._config.enableMessage,
                 setValue: value => this._config.enableMessage = value
             );
+
+            this.Monitor.Log("Setup and Configured GenericModConfigMenu Integration", LogLevel.Info);
         }
     }
 }
