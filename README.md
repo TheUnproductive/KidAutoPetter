@@ -19,6 +19,7 @@ Further translations are always welcome, please create a new issue first.
 
 ## Donations
 If you like my work and would like to support me further:
+
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=K5KVUTX6HJHXU)
 
 In any case, enjoy :)
