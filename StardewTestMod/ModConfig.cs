@@ -9,5 +9,7 @@ namespace KidAutoPetter
     internal class ModConfig
     {
         public bool enableMessage = true;
+
+        public bool petCatOrDog = true;
     }
 }
