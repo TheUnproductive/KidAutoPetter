@@ -41,7 +41,7 @@ namespace KidAutoPetter
             if (Game1.player.getChildrenCount() > 0 && Game1.player.IsMainPlayer)
             {
                 //this.Monitor.Log($"Main Player has children", LogLevel.Debug);
-                if (Game1.player.hasPet())
+                if (Game1.player.hasPet() && _config.petCatOrDog)
                 {
                     Pet pet = Game1.player.getPet();
                     //this.Monitor.Log($"Player {Game1.player.Name} has a pet {pet.Name}", LogLevel.Debug);
@@ -55,6 +55,7 @@ namespace KidAutoPetter
                     //this.Monitor.Log($"{animal.Name}", LogLevel.Debug);
                     animal.pet(Game1.player);
                 }
+
                 if (_config.enableMessage)
                 {
                     Game1.showGlobalMessage(I18n.GetByKey("petted"));
@@ -85,6 +86,14 @@ namespace KidAutoPetter
                 tooltip: () => "This enables or disables the Info Message popping up on day start.",
                 getValue: () => this._config.enableMessage,
                 setValue: value => this._config.enableMessage = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Pet Cat or Dog",
+                tooltip: () => "This enables or disables the Auto-Petting of the Pet Cat or Dog.",
+                getValue: () => this._config.petCatOrDog,
+                setValue: value => this._config.petCatOrDog = value
             );
 
             this.Monitor.Log("Setup and Configured GenericModConfigMenu Integration", LogLevel.Info);
