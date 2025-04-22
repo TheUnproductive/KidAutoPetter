@@ -40,18 +40,29 @@ namespace KidAutoPetter
             if (Game1.IsMultiplayer) return;
             if (Game1.player.getChildrenCount() > 0 && Game1.player.IsMainPlayer)
             {
-                if (Game1.player.getChildren()[0].isInCrib())
+                /*if (Game1.player.getChildren()[0].isInCrib())
                 {
                     return;
-                }
+                }*/
 
                 //this.Monitor.Log($"Main Player has children", LogLevel.Debug);
                 if (Game1.player.hasPet() && _config.petCatOrDog)
                 {
-                    Pet pet = Game1.player.getPet();
-                    //this.Monitor.Log($"Player {Game1.player.Name} has a pet {pet.Name}", LogLevel.Debug);
-                    pet.grantedFriendshipForPet.Set(newValue: true);
-                    pet.friendshipTowardFarmer.Set(Math.Min(1000, pet.friendshipTowardFarmer.Value + 12));
+                    foreach (NPC character in Game1.getFarm().characters)
+                    {
+                        if (character is Pet)
+                        {
+                            Pet pet = (Pet)character;
+                            pet.grantedFriendshipForPet.Set(newValue: true);
+                            pet.friendshipTowardFarmer.Set(Math.Min(1000, pet.friendshipTowardFarmer.Value + 12));
+                        }
+                    }
+                    /*
+                     * Pet pet = Game1.player.getPet();
+                     * //this.Monitor.Log($"Player {Game1.player.Name} has a pet {pet.Name}", LogLevel.Debug);
+                     * pet.grantedFriendshipForPet.Set(newValue: true);
+                     * pet.friendshipTowardFarmer.Set(Math.Min(1000, pet.friendshipTowardFarmer.Value + 12));
+                     */
                 }
                 if (_config.petFarmAnimals)
                 {
