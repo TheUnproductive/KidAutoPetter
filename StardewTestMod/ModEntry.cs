@@ -40,10 +40,10 @@ namespace KidAutoPetter
             if (Game1.IsMultiplayer) return;
             if (Game1.player.getChildrenCount() > 0 && Game1.player.IsMainPlayer)
             {
-                /*if (Game1.player.getChildren()[0].isInCrib())
+                if (Game1.player.getChildren()[0].isInCrib())
                 {
                     return;
-                }*/
+                }
 
                 //this.Monitor.Log($"Main Player has children", LogLevel.Debug);
                 if (Game1.player.hasPet() && _config.petCatOrDog)
