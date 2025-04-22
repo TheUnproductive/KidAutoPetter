@@ -11,5 +11,7 @@ namespace KidAutoPetter
         public bool enableMessage = true;
 
         public bool petCatOrDog = true;
+
+        public bool petFarmAnimals = true;
     }
 }

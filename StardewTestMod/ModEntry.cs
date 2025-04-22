@@ -40,6 +40,11 @@ namespace KidAutoPetter
             if (Game1.IsMultiplayer) return;
             if (Game1.player.getChildrenCount() > 0 && Game1.player.IsMainPlayer)
             {
+                /*if (Game1.player.getChildren()[0].isInCrib())
+                {
+                    return;
+                }*/
+
                 //this.Monitor.Log($"Main Player has children", LogLevel.Debug);
                 if (Game1.player.hasPet() && _config.petCatOrDog)
                 {
@@ -48,15 +53,17 @@ namespace KidAutoPetter
                     pet.grantedFriendshipForPet.Set(newValue: true);
                     pet.friendshipTowardFarmer.Set(Math.Min(1000, pet.friendshipTowardFarmer.Value + 12));
                 }
-
-                foreach (FarmAnimal animal in Game1.getFarm().getAllFarmAnimals())
+                if (_config.petFarmAnimals)
                 {
-                    //this.Monitor.Log("Found Animal", LogLevel.Debug);
-                    //this.Monitor.Log($"{animal.Name}", LogLevel.Debug);
-                    animal.pet(Game1.player);
+                    foreach (FarmAnimal animal in Game1.getFarm().getAllFarmAnimals())
+                    {
+                        //this.Monitor.Log("Found Animal", LogLevel.Debug);
+                        //this.Monitor.Log($"{animal.Name}", LogLevel.Debug);
+                        animal.pet(Game1.player);
+                    }
                 }
 
-                if (_config.enableMessage)
+                if (_config.enableMessage && (_config.petFarmAnimals || _config.petCatOrDog))
                 {
                     Game1.showGlobalMessage(I18n.GetByKey("petted"));
                 }
@@ -94,6 +101,14 @@ namespace KidAutoPetter
                 tooltip: () => "This enables or disables the Auto-Petting of the Pet Cat or Dog.",
                 getValue: () => this._config.petCatOrDog,
                 setValue: value => this._config.petCatOrDog = value
+            );
+
+            configMenu.AddBoolOption(
+                mod: this.ModManifest,
+                name: () => "Pet Farm Animals",
+                tooltip: () => "This enables or disables the Auto-Petting of all Farm Animals.",
+                getValue: () => this._config.petFarmAnimals,
+                setValue: value => this._config.petFarmAnimals = value
             );
 
             this.Monitor.Log("Setup and Configured GenericModConfigMenu Integration", LogLevel.Info);

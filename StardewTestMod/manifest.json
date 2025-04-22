@@ -1,7 +1,7 @@
 {
   "Name": "KidAutoPetter",
   "Author": "TheUnproductive",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Description": "A simple mod to make children more useful.",
   "UniqueID": "TheUnproductive.KidAutoPetter",
   "EntryDll": "KidAutoPetter.dll",
